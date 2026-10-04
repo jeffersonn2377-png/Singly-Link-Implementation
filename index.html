@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singly Linked List Implementation - College Mini-Project</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="title-group">
+                    <span class="badge project-badge">Data Structures & Algorithms</span>
+                    <h1>Singly Linked List Implementation</h1>
+                    <p class="subtitle">A full-stack college mini-project demonstrating dynamic node management in pure C with an interactive web dashboard.</p>
+                </div>
+                <div class="header-status">
+                    <div id="connectionStatus" class="status-indicator online">
+                        <span class="pulse-dot"></span>
+                        <span class="status-text">C Backend: Connected (:8080)</span>
+                    </div>
+                    <div class="stat-pills">
+                        <div class="stat-pill">
+                            <span class="label">Total Nodes:</span>
+                            <span id="nodeCountBadge" class="value">0</span>
+                        </div>
+                        <div class="stat-pill">
+                            <span class="label">Head:</span>
+                            <span id="headValBadge" class="value">NULL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Linked List Visualizer Board -->
+            <section class="visualizer-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h2>Singly Linked List Visualization</h2>
+                        <span class="hint">HEAD → [Node] → [Node] → NULL</span>
+                    </div>
+                    <div class="visualizer-actions">
+                        <button id="btnRefresh" class="btn-icon" title="Refresh state from C backend">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="visualizer-viewport" id="visualizerViewport">
+                    <div class="linked-list-chain" id="linkedListChain">
+                        <!-- Dynamic Nodes Rendered by JS & C backend -->
+                        <div class="pointer-tag head-tag">HEAD</div>
+                        <div class="arrow-connector">
+                            <span class="arrow-line"></span>
+                            <span class="arrow-head">▶</span>
+                        </div>
+                        <div class="pointer-tag null-tag">NULL</div>
+                    </div>
+                </div>
+
+                <!-- Status & Feedback Banner -->
+                <div class="alert-banner" id="statusBanner">
+                    <div class="banner-icon" id="bannerIcon">ℹ️</div>
+                    <div class="banner-message" id="bannerMessage">Ready. Initial linked list loaded from C backend.</div>
+                </div>
+            </section>
+
+            <!-- Control Dashboard Grid -->
+            <section class="dashboard-grid">
+                <!-- 1. Insertion Card -->
+                <div class="control-card">
+                    <div class="control-header">
+                        <div class="control-icon insert-icon">➕</div>
+                        <h3>Insertion Operations</h3>
+                    </div>
+                    <div class="control-body">
+                        <!-- Insert Beginning -->
+                        <div class="form-row">
+                            <label for="valInsertBeg">Insert Beginning</label>
+                            <div class="input-action-group">
+                                <input type="number" id="valInsertBeg" placeholder="Value (e.g. 5)" />
+                                <button id="btnInsertBeg" class="btn btn-primary">Insert Beginning</button>
+                            </div>
+                        </div>
+
+                        <!-- Insert End -->
+                        <div class="form-row">
+                            <label for="valInsertEnd">Insert End</label>
+                            <div class="input-action-group">
+                                <input type="number" id="valInsertEnd" placeholder="Value (e.g. 50)" />
+                                <button id="btnInsertEnd" class="btn btn-primary">Insert End</button>
+                            </div>
+                        </div>
+
+                        <!-- Insert Specific Position -->
+                        <div class="form-row">
+                            <label>Insert at Specific Position</label>
+                            <div class="input-action-group multi-input">
+                                <input type="number" id="valInsertPos" placeholder="Value (e.g. 25)" />
+                                <input type="number" id="posInsertPos" placeholder="Pos (1-based)" min="1" />
+                                <button id="btnInsertPos" class="btn btn-primary">Insert Position</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Deletion Card -->
+                <div class="control-card">
+                    <div class="control-header">
+                        <div class="control-icon delete-icon">🗑️</div>
+                        <h3>Deletion Operations</h3>
+                    </div>
+                    <div class="control-body">
+                        <!-- Delete Beginning -->
+                        <div class="form-row">
+                            <label>Delete from Beginning (HEAD)</label>
+                            <button id="btnDeleteBeg" class="btn btn-danger btn-block">Delete Beginning</button>
+                        </div>
+
+                        <!-- Delete End -->
+                        <div class="form-row">
+                            <label>Delete from End (TAIL)</label>
+                            <button id="btnDeleteEnd" class="btn btn-danger btn-block">Delete End</button>
+                        </div>
+
+                        <!-- Delete Specific Position -->
+                        <div class="form-row">
+                            <label for="posDeletePos">Delete from Specific Position</label>
+                            <div class="input-action-group">
+                                <input type="number" id="posDeletePos" placeholder="Position (1-based)" min="1" />
+                                <button id="btnDeletePos" class="btn btn-danger">Delete Position</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Query, Traversal & Utilities Card -->
+                <div class="control-card">
+                    <div class="control-header">
+                        <div class="control-icon utility-icon">⚡</div>
+                        <h3>Search & Operations</h3>
+                    </div>
+                    <div class="control-body">
+                        <!-- Search Node -->
+                        <div class="form-row">
+                            <label for="valSearch">Search for an Element</label>
+                            <div class="input-action-group">
+                                <input type="number" id="valSearch" placeholder="Value to find" />
+                                <button id="btnSearch" class="btn btn-secondary">Search</button>
+                            </div>
+                        </div>
+
+                        <!-- Count, Reverse, Clear -->
+                        <div class="form-row buttons-cluster">
+                            <div class="action-item">
+                                <button id="btnCount" class="btn btn-secondary btn-block">Count</button>
+                            </div>
+                            <div class="action-item">
+                                <button id="btnReverse" class="btn btn-accent btn-block">Reverse</button>
+                            </div>
+                            <div class="action-item">
+                                <button id="btnClear" class="btn btn-outline-danger btn-block">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activity Log & Complexity Reference Section -->
+            <section class="info-section">
+                <!-- Activity Log -->
+                <div class="info-card">
+                    <div class="info-header">
+                        <h4>Operation History & Audit Log</h4>
+                        <button id="btnClearLog" class="btn-text">Clear Log</button>
+                    </div>
+                    <div class="log-container" id="logContainer">
+                        <div class="log-entry log-info">
+                            <span class="log-time">00:00:00</span>
+                            <span class="log-msg">System initialized. Connected to C backend on port 8080.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Complexity Cheat Sheet -->
+                <div class="info-card">
+                    <div class="info-header">
+                        <h4>Time Complexity (Singly Linked List)</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="complexity-table">
+                            <thead>
+                                <tr>
+                                    <th>Operation</th>
+                                    <th>Time</th>
+                                    <th>Space</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Insert Beginning</strong></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>Updates HEAD pointer directly</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Insert End</strong></td>
+                                    <td><span class="tag-badge on">O(n)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>Traverses to the last node</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Insert Position</strong></td>
+                                    <td><span class="tag-badge on">O(n)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>Traverses to position - 1</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Delete Beginning</strong></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>Frees first node, shifts HEAD</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Delete End</strong></td>
+                                    <td><span class="tag-badge on">O(n)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>Traverses to second-to-last node</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Delete Position</strong></td>
+                                    <td><span class="tag-badge on">O(n)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>Traverses to node before target</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Search Element</strong></td>
+                                    <td><span class="tag-badge on">O(n)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>Linear traversal from HEAD</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Reverse List</strong></td>
+                                    <td><span class="tag-badge on">O(n)</span></td>
+                                    <td><span class="tag-badge o1">O(1)</span></td>
+                                    <td>In-place pointer reversal (iterative)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>Singly Linked List Implementation — College Mini-Project in C & Web Technologies</p>
+                <div class="tech-stack-tags">
+                    <span class="tech-tag">C99</span>
+                    <span class="tech-tag">Winsock2 / POSIX Sockets</span>
+                    <span class="tech-tag">HTML5</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">JavaScript (ES6+)</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

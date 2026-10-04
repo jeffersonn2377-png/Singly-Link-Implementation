@@ -3,6 +3,19 @@
 > **College Mini-Project in Data Structures & Algorithms**  
 > A full-stack interactive project featuring a pure **C** singly linked list core, a lightweight cross-platform **C HTTP/REST server**, and a modern responsive **HTML5/CSS3/JavaScript** frontend dashboard.
 
+🌐 **Live Demo on GitHub Pages**:  
+**[https://jeffersonn2377-png.github.io/Singly-Link-Implementation/](https://jeffersonn2377-png.github.io/Singly-Link-Implementation/)**
+
+---
+
+### How to Enable GitHub Pages (30-second setup)
+1. Go to your repository on GitHub: `https://github.com/jeffersonn2377-png/Singly-Link-Implementation`
+2. Click **Settings** (top navigation bar) ➔ click **Pages** (left sidebar).
+3. Under **Build and deployment** ➔ **Source**, select **Deploy from a branch**.
+4. Under **Branch**, select **`main`** and folder **`/(root)`**.
+5. Click **Save**. Within 1–2 minutes, your website will be live at:  
+   👉 **`https://jeffersonn2377-png.github.io/Singly-Link-Implementation/`**
+
 ---
 
 ## Table of Contents

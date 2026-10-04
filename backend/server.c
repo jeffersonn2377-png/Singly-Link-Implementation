@@ -120,12 +120,19 @@ static void send_response(socket_t client, int status_code, const char* status_t
 
 /* Helper to serve static files from disk */
 static int serve_file(socket_t client, const char* relative_path, const char* content_type) {
-    char alt_path1[256];
-    char alt_path2[256];
-    snprintf(alt_path1, sizeof(alt_path1), "../%s", relative_path);
-    snprintf(alt_path2, sizeof(alt_path2), "./frontend/%s", relative_path + (strncmp(relative_path, "frontend/", 9) == 0 ? 9 : 0));
+    const char* base_filename = relative_path;
+    if (strncmp(relative_path, "frontend/", 9) == 0) {
+        base_filename = relative_path + 9;
+    }
 
-    const char* try_paths[] = { relative_path, alt_path1, alt_path2, NULL };
+    char p1[256], p2[256], p3[256], p4[256], p5[256];
+    snprintf(p1, sizeof(p1), "%s", relative_path);
+    snprintf(p2, sizeof(p2), "../%s", relative_path);
+    snprintf(p3, sizeof(p3), "./%s", base_filename);
+    snprintf(p4, sizeof(p4), "../%s", base_filename);
+    snprintf(p5, sizeof(p5), "./frontend/%s", base_filename);
+
+    const char* try_paths[] = { p1, p2, p3, p4, p5, NULL };
     FILE* f = NULL;
 
     for (int i = 0; try_paths[i] != NULL; i++) {
