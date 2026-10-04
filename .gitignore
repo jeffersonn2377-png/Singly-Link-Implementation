@@ -1,0 +1,36 @@
+# Compiled Object Files and Executables
+*.o
+*.obj
+*.exe
+*.out
+server
+server.exe
+
+# Static and Dynamic Libraries
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+
+# Debug and Symbol Files
+*.pdb
+*.idb
+*.dSYM/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.vs/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and Temporary files
+*.log
+scratch/
+tmp/
